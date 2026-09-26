@@ -1,0 +1,138 @@
+/* Full-screen mission lobby. Gameplay HUD retains its compact styling. */
+body:has(#intro-overlay.visible) .hud, body:has(#intro-overlay.visible) .death-overlay, body:has(#intro-overlay.visible) .damage-flash { visibility:hidden; }
+.lobby { padding: 0; backdrop-filter: none; background: linear-gradient(90deg, rgba(5,10,14,.85), rgba(7,13,17,.3) 52%, rgba(7,13,17,.6)), linear-gradient(0deg,#080f14,transparent 45%); overflow-y: auto; align-items: stretch; }
+.lobby-shell { width: min(1600px,100%); margin: auto; min-height: 100dvh; padding: 0 clamp(22px,4vw,72px); display:flex; flex-direction:column; --accent: #ffb45c; --soft: #a8b4bc; }
+.lobby button { font-family: var(--sans); }
+.lobby-header { display:flex; align-items:center; gap:40px; min-height:112px; border-bottom:1px solid #ffffff24; }
+.lobby-brand { color:#fff; text-decoration:none; font:900 44px/.9 var(--mono); letter-spacing:.02em; }
+.lobby-brand span { display:block; font:600 12px/1.5 var(--sans); letter-spacing:.16em; margin-top:8px; color:var(--soft); }
+.lobby-nav { display:flex; align-self:stretch; gap:28px; align-items:stretch; margin-left:24px; }
+.lobby-nav button { background:none; border:0; border-bottom:3px solid transparent; color:#a8b4bc; padding:0 2px; cursor:pointer; font-size:14px; font-weight:700; }
+.lobby-nav button:hover { color:white; }
+.lobby-nav button.active { color:var(--accent); border-bottom-color:var(--accent); }
+.lobby-wallet { margin-left:auto; text-align:right; white-space:nowrap; }
+.lobby-wallet span { display:block; color:var(--soft); font-size:12px; }
+.lobby-wallet strong { font:700 24px/1.5 var(--mono); color:var(--accent); }
+.lobby-main { flex:1; display:flex; align-items:center; padding:40px 0; }
+.operation-view { width:100%; display:grid; grid-template-columns:1fr 1.08fr; align-items:center; gap:clamp(24px,5vw,88px); }
+.lobby-kicker { color:var(--accent); font:700 12px/1.7 var(--sans); letter-spacing:.14em; }
+.lobby-kicker span { color:var(--soft); white-space:nowrap; }
+.operation-brief h1 { margin:18px 0 0; font:800 clamp(64px,7.7vw,116px)/.98 var(--mono); letter-spacing:-.01em; color:#fff; overflow-wrap:anywhere; }
+.mission-caption { margin:14px 0; font:700 18px/1.4 var(--sans); color:#f2f3f0; }
+#intro-desc { max-width:480px; font:400 16px/1.75 var(--sans); color:#b4c0c5; margin:0 0 28px; }
+.mission-facts { display:flex; flex-wrap:wrap; gap:20px 28px; padding-top:22px; border-top:1px solid #ffffff25; }
+.mission-facts span { display:block; font-size:12px; color:var(--soft); margin-bottom:8px; }
+.mission-facts strong { font:600 17px/1.4 var(--sans); color:#fff; }
+.mission-facts b { font-weight:600; }
+.terminal-caption { display:flex; align-items:center; gap:12px; margin-top:34px; font-size:12px; color:#9dabb4; }
+.terminal-rule { width:36px; height:1px; background:var(--accent); }
+.selector-heading { display:flex; justify-content:space-between; color:#c1ccd1; font:700 12px/1.5 var(--sans); letter-spacing:.13em; margin-bottom:15px; }
+.selector-heading span:last-child { color:#8b9ba5; }
+.mission-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.mission-card { position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:0; text-align:left; padding:22px; min-height:214px; border:1px solid #afc3d032; color:#f5f6f2; background:linear-gradient(130deg,rgba(32,45,52,.92),rgba(13,23,29,.95)); cursor:pointer; transition:background .18s,border-color .18s,transform .18s; }
+.mission-card:hover { border-color:#b7c9d382; transform:translateY(-2px); }
+.mission-card.selected { border-color:var(--accent); background:linear-gradient(135deg,rgba(82,62,37,.92),rgba(29,30,27,.98)); box-shadow:inset 0 3px var(--accent); }
+.mission-card.selected::after { content:'✓'; position:absolute; right:17px; top:15px; color:var(--accent); font-size:16px; }
+.mission-number { color:#a1b1b9; font-size:12px; letter-spacing:.1em; }
+.mission-card.selected .mission-number { color:#ffc78b; }
+.mission-card strong { display:block; font:700 30px/1.1 var(--mono); margin:17px 0 10px; }
+.mission-description { font-size:13px; line-height:1.65; color:#bac4c8; }
+.mission-tag { margin-top:auto; padding-top:18px; font-size:12px; color:#96a9b4; }
+.mission-card.selected .mission-tag { color:#ffd4a2; }
+.deployment-bar { display:flex; align-items:center; gap:26px; padding:22px 0; border-top:1px solid #ffffff32; border-bottom:1px solid #ffffff18; }
+.equipped-summary { border:0; border-right:1px solid #ffffff25; padding:0 32px 0 0; color:white; background:none; text-align:left; cursor:pointer; min-width:205px; }
+.equipped-summary span,.deployment-selection span { display:block; font-size:12px; color:#9eafb8; letter-spacing:.08em; }
+.equipped-summary strong { display:inline-block; font:700 24px/1.4 var(--mono); }
+.equipped-summary small { display:block; font-size:12px; color:var(--accent); }
+.deployment-selection strong { display:block; font:700 22px/1.65 var(--mono); color:white; }
+.deploy-button { margin-left:auto; min-height:66px; min-width:290px; padding:0 26px; border:0; background:var(--accent); color:#17150f; font-size:14px; font-weight:800; letter-spacing:.05em; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:26px; transition:background .18s; }
+.deploy-button:hover { background:#ffd097; }
+.deploy-button span { font-size:26px; font-weight:400; }
+.resume-button { margin-left:auto; min-height:48px; padding:10px 15px; border:1px solid #ffffff55; color:#fff; background:#152129; cursor:pointer; font-size:14px; }
+.resume-button:not([hidden]) + .deploy-button { margin-left:0; min-width:230px; }
+.lobby-bottom { min-height:65px; display:flex; align-items:center; justify-content:space-between; gap:20px; font-size:12px; color:#84949e; }
+.lobby-bottom .audio-toggle { font-size:12px; letter-spacing:0; border:0; background:none; color:#b7c2c9; }
+.lobby-bottom .audio-icon { animation:none; }
+.loadout-view { width:100%; }
+.lobby [hidden] { display:none!important; }
+.loadout-heading h2 { font:800 48px/1 var(--mono); margin:10px 0; }
+.loadout-heading p { color:#b4c0c5; font-size:14px; line-height:1.6; margin:0 0 24px; }
+.loadout-layout { display:grid; grid-template-columns:1.2fr 1fr; gap:26px; }
+.weapon-stage { position:relative; min-height:350px; background:radial-gradient(ellipse at center,#42535c66,transparent 65%),#111b21dc; border:1px solid #ffffff25; }
+.weapon-stage-label { position:absolute; top:22px; left:24px; right:24px; display:flex; justify-content:space-between; font-size:12px; color:#b3c0c7; letter-spacing:.1em; }
+.weapon-stage-label span { color:var(--accent); font-weight:700; }
+#intro-weapon-preview { position:absolute; inset:58px 18px 48px; }
+#intro-weapon-preview canvas { width:100%; height:100%; object-fit:contain; }
+.weapon-stage-note { position:absolute; bottom:22px; left:24px; font-size:12px; color:#a4b5bf; }
+.weapon-options { display:grid; gap:10px; }
+.weapon-option { text-align:left; padding:17px 22px; border:1px solid #ffffff25; background:#15232ae8; color:white; cursor:pointer; }
+.weapon-option.selected { border-color:var(--accent); box-shadow:inset 4px 0 var(--accent); background:#413728e8; }
+.weapon-option span { display:block; font-size:12px; color:#b7c5cc; }
+.weapon-option strong { display:block; font:700 28px/1.25 var(--mono); margin:5px 0; }
+.weapon-option small { font-size:13px; color:#afbdc4; }
+.lobby button:focus-visible, .lobby a:focus-visible { outline:3px solid #fff; outline-offset:4px; }
+/* Carry the same readable surfaces into the existing settings and arsenal. */
+#settings-overlay,#shop-overlay { z-index:10; background:#050a0ed9; }
+.settings-shell,.shop-shell { border-color:#ffffff32; background:linear-gradient(130deg,#1a272f,#0c151b); }
+.settings-shell .eyebrow,.shop-shell .eyebrow { font-size:12px; color:#ffb45c; }
+.settings-copy,.settings-foot,.setting-card small { font-size:13px; line-height:1.6; }
+.setting-head,.setting-value,.settings-select,.setting-toggle { font-size:14px; }
+.settings-grid { gap:14px; }
+.setting-card { min-height:116px; padding:17px; }
+.setting-toggle.active { background:#ffb45c; border-color:#ffb45c; }
+.setting-card input[type=range] { accent-color:#ffb45c; }
+.settings-select { min-height:40px; }
+.settings-foot .secondary-btn { font-size:12px; }
+.settings-summary { display:none; }
+.shop-shell .shop-description,.shop-shell .case-label,.shop-shell .case-select span,.shop-shell .odds-row,.shop-shell .shop-foot { font-size:12px; line-height:1.5; }
+.shop-shell .case-select strong,.shop-shell .primary-btn,.shop-shell .inventory-item { font-size:14px; }
+.shop-shell .case-select { min-height:67px; }
+.shop-shell .side-title { font-size:20px; }
+.shop-shell .inventory-caption { font-size:12px; letter-spacing:.02em; }
+.shop-shell .inventory-item { min-height:40px; }
+.shop-shell .close-x,.settings-shell .close-x { width:40px; height:40px; }
+@media (min-width:1500px) { .mission-card { min-height:242px; padding:26px; } .mission-card strong { font-size:36px; } .mission-description { font-size:14px; } }
+@media (max-width:1100px) { .lobby-header { gap:24px; } .lobby-nav { margin-left:0; gap:19px; } .operation-view { gap:28px; grid-template-columns:.85fr 1.15fr; } .mission-card { padding:16px; } .mission-facts { gap:17px; } .deploy-button { min-width:230px; } .deployment-selection { display:none; } }
+@media (max-width:800px) { .lobby-header { flex-wrap:wrap; gap:18px; padding-top:25px; } .lobby-brand { font-size:36px; } .lobby-wallet { order:1; } .lobby-nav { order:2; width:100%; min-height:55px; justify-content:space-between; gap:8px; } .operation-view { grid-template-columns:1fr; gap:30px; } .operation-brief h1 { font-size:64px; margin-top:12px; } #intro-desc { max-width:100%; margin-bottom:18px; } .mission-facts { gap:32px; padding-top:16px; } .terminal-caption { display:none; } .lobby-main { padding:28px 0; } .loadout-layout { grid-template-columns:1fr; } .weapon-stage { min-height:280px; } .deployment-bar { flex-wrap:wrap; gap:18px; } .equipped-summary { border:0; min-width:0; padding:0; } .deploy-button { flex:1; min-width:220px; } .resume-button:not([hidden]) { margin-left:auto; } .resume-button:not([hidden]) + .deploy-button { flex-basis:100%; } .settings-shell { max-height:calc(100dvh - 30px); overflow:auto; } }
+@media (max-width:460px) { .lobby-shell { padding:0 18px; } .lobby-nav button { font-size:12px; } .lobby-kicker { font-size:12px; letter-spacing:.06em; } .mission-card { min-height:228px; padding:16px 12px; } .mission-card strong { font-size:28px; } .mission-description { font-size:12px; } .mission-grid { gap:10px; } .mission-tag { font-size:12px; } .mission-facts { gap:18px; } .mission-facts strong { font-size:14px; } .equipped-summary { display:none; } .lobby-bottom { flex-wrap:wrap; padding:16px 0; gap:8px; } .lobby-bottom > span { font-size:12px; } .deploy-button { min-width:100%; } }
+@media (prefers-reduced-motion:reduce) { .lobby * { transition:none!important; } }
+
+/* Operations dossier: real scene views, restrained typography, strong selection feedback. */
+.lobby-header { min-height:94px; }
+.lobby-wallet span { max-width:170px; line-height:1.5; font-size:10px; letter-spacing:.06em; white-space:normal; }
+.operation-view { grid-template-columns:.82fr 1.18fr; gap:clamp(22px,4vw,64px); }
+.operation-brief h1 { font-size:clamp(54px,6.2vw,96px); }
+.lobby-main { padding:30px 0; }
+.mission-card { isolation:isolate; overflow:hidden; min-height:188px; padding:20px; background:#111d24; border-color:#87979f55; transition:transform .25s ease, border-color .25s, box-shadow .25s; }
+.mission-card::before { content:''; position:absolute; inset:0; z-index:-2; background-image:var(--mission-image); background-position:center; background-size:cover; opacity:.64; filter:saturate(.55); transform:scale(1.015); transition:transform .5s ease, opacity .3s, filter .3s; }
+.mission-card::after { content:''; position:absolute; z-index:-1; inset:0; background:linear-gradient(0deg,#071018 4%,#09131bd6 46%,#101a2244); pointer-events:none; }
+.mission-card > * { position:relative; z-index:1; }
+.mission-card strong { font:650 22px/1.2 var(--sans); letter-spacing:.015em; margin:26px 0 8px; }
+.mission-card .mission-number { color:#e0e7e9; font-size:11px; letter-spacing:.12em; }
+.mission-card .mission-description { font-size:13px; color:#d0d8dc; line-height:1.5; }
+.mission-card .mission-tag { font-size:11px; padding-top:14px; letter-spacing:.05em; color:#bdcbd0; }
+.mission-card:hover { transform:translateY(-3px); border-color:var(--mode-tint,#e8bc83); box-shadow:0 12px 30px #0007; }
+.mission-card:hover::before,.mission-card:focus-visible::before { transform:scale(1.08); opacity:.92; filter:saturate(.85); }
+.mission-card.selected { border-color:var(--mode-tint,#e8bc83); background:#101c24; box-shadow:inset 3px 0 var(--mode-tint,#e8bc83),0 8px 32px #0006; }
+.mission-card.selected::after { content:''; inset:0; background:linear-gradient(0deg,#08111bf7,#101b24b3 55%,#17222c25); }
+.mission-card.selected::before { opacity:.94; filter:saturate(.85); }
+.mission-card.selected .mission-number,.mission-card.selected .mission-tag { color:var(--mode-tint,#e8bc83); }
+.mission-card[data-mode=training] { --mode-tint:#a6c6c0; }
+.mission-card[data-mode=assault] { --mode-tint:#e4ac79; }
+.mission-card[data-mode=survival] { --mode-tint:#d58f82; }
+.mission-card[data-mode=contract] { --mode-tint:#b4accf; }
+.mission-card[data-mode=extraction] { --mode-tint:#a9c9ac; }
+.lobby button:active { transform:translateY(1px); }
+.lobby-nav button { position:relative; transition:color .18s,background .18s; }
+.lobby-nav button:hover { background:linear-gradient(0deg,#ffffff0d,transparent); }
+.deploy-button { position:relative; overflow:hidden; background:linear-gradient(110deg,#e3af79,#f1c999); box-shadow:0 4px 20px #0004; transition:box-shadow .2s,transform .2s; }
+.deploy-button:hover { background:linear-gradient(110deg,#f0c18c,#ffdec1); box-shadow:0 0 25px #e4ac792c; }
+.deploy-button span { transition:transform .2s; }
+.deploy-button:hover span { transform:translateX(5px); }
+.case-selector { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.weapon-option { transition:border-color .2s, background .2s,transform .2s; }
+.weapon-option:hover { transform:translateX(4px); border-color:#c6d1d7aa; }
+.reduced-motion .lobby *, .reduced-motion .lobby *::before { animation:none!important; transition:none!important; }
+@media (max-width:1000px) { .lobby-header { gap:18px; } .lobby-wallet span { max-width:150px; } .operation-view { grid-template-columns:.8fr 1.2fr; gap:24px; } .mission-card { padding:16px; } .mission-card strong { font-size:20px; } }
+@media (max-width:800px) { .operation-view { grid-template-columns:1fr; } .operation-brief h1 { font-size:56px; } .mission-card { min-height:195px; } .lobby-wallet span { max-width:210px; } }
+@media (prefers-reduced-motion:reduce) { .lobby *::before { transition:none!important; } }

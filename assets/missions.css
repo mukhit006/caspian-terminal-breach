@@ -1,0 +1,203 @@
+/* Mission feedback shares the lobby's warm amber and dark naval palette. */
+.objective-hud {
+  position: fixed;
+  z-index: 4;
+  top: 144px;
+  left: 38px;
+  width: min(306px, calc(100vw - 76px));
+  padding: 16px 18px 17px;
+  border: 1px solid #b1c5d12b;
+  border-left: 3px solid #ffb45c;
+  background: linear-gradient(115deg, #101c25ee, #0b151dc9);
+  color: #f1f5f7;
+  box-shadow: 0 8px 26px #00000024;
+  pointer-events: none;
+}
+.objective-hud[hidden] { display: none !important; }
+#objective-kicker {
+  display: block;
+  color: #ffbd74;
+  font: 700 10px/1.5 var(--sans);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+#objective-title {
+  display: block;
+  margin-top: 6px;
+  font: 700 25px/1.12 var(--mono);
+  letter-spacing: .015em;
+}
+#objective-detail {
+  display: block;
+  margin-top: 8px;
+  color: #c2ced5;
+  font: 500 12px/1.55 var(--sans);
+  font-variant-numeric: tabular-nums;
+}
+.objective-progress {
+  height: 3px;
+  margin-top: 14px;
+  overflow: hidden;
+  background: #ffffff20;
+}
+#objective-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  max-width: 100%;
+  background: #ffb45c;
+  transition: width .22s linear;
+}
+body:has(#intro-overlay.visible) .objective-hud,
+body:has(#shop-overlay.visible) .objective-hud,
+body:has(#settings-overlay.visible) .objective-hud,
+body:has(#mission-results.visible) .objective-hud { display: none; }
+body:has(#mission-results.visible) .hud { visibility: hidden; }
+
+#mission-results {
+  z-index: 12;
+  overflow-y: auto;
+  padding: 32px 22px;
+  background: linear-gradient(120deg, #061017ed, #0c1721bd);
+  backdrop-filter: blur(12px);
+}
+.results-shell {
+  position: relative;
+  width: min(760px, 100%);
+  margin: auto;
+  padding: clamp(26px, 4vw, 52px);
+  border: 1px solid #c5d7e33d;
+  border-top: 3px solid #ffb45c;
+  background: linear-gradient(135deg, #1a2a35, #0d1820 80%);
+  box-shadow: 0 30px 100px #00000055;
+}
+.results-kicker {
+  color: #ffbd74;
+  font: 700 12px/1.6 var(--sans);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+#results-title {
+  margin: 15px 0 13px;
+  color: #f9faf8;
+  font: 800 clamp(42px, 6vw, 68px)/1 var(--mono);
+  letter-spacing: -.01em;
+  overflow-wrap: anywhere;
+}
+#results-copy {
+  max-width: 590px;
+  margin: 0;
+  color: #b9c7d0;
+  font: 400 15px/1.75 var(--sans);
+}
+.results-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 32px 0;
+  border-top: 1px solid #ffffff26;
+  border-bottom: 1px solid #ffffff26;
+}
+.results-stats > div {
+  position: relative;
+  min-width: 0;
+  padding: 21px 12px 23px;
+}
+.results-stats > div:first-child { padding-left: 0; }
+.results-stats > div:last-child { padding-right: 0; }
+.results-stats > div + div::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 0;
+  width: 1px;
+  background: #ffffff1c;
+}
+.results-stats span {
+  display: block;
+  color: #9caeba;
+  font: 500 12px/1.5 var(--sans);
+}
+.results-stats strong {
+  display: block;
+  margin-top: 8px;
+  color: #fff;
+  font: 700 clamp(28px, 4vw, 38px)/1.1 var(--mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.results-stats #results-reward { color: #ffbd74; }
+.results-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.results-actions button {
+  min-height: 52px;
+  padding: 14px 26px;
+  font: 800 13px/1.5 var(--sans);
+  cursor: pointer;
+  transition: background .16s, border-color .16s;
+}
+.result-retry { border: 1px solid #ffb45c; background: #ffb45c; color: #191811; }
+.result-retry:hover { background: #ffd096; border-color: #ffd096; }
+.result-menu { border: 1px solid #b7cbd54f; background: #ffffff06; color: #dce5eb; }
+.result-menu:hover { background: #ffffff0f; border-color: #b7cbd59c; }
+.results-actions button:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+
+/* Extraction is a longer, objective-based mission and spans the mode grid. */
+.mission-card[data-mode="extraction"] {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  column-gap: 28px;
+  align-content: center;
+  min-height: 150px;
+}
+.mission-card[data-mode="extraction"] .mission-number { grid-column: 1; grid-row: 1; }
+.mission-card[data-mode="extraction"] strong { grid-column: 1; grid-row: 2; margin: 10px 0 0; }
+.mission-card[data-mode="extraction"] .mission-description { grid-column: 2; grid-row: 1 / 3; align-self: center; }
+.mission-card[data-mode="extraction"] .mission-tag { grid-column: 1 / -1; grid-row: 3; padding-top: 14px; }
+
+/* Move only the four ticks inward; preserve aiming and hit-marker transforms. */
+body.is-aiming .crosshair .h { width: 4px; left: 4px; }
+body.is-aiming .crosshair .h.r { left: auto; right: 4px; }
+body.is-aiming .crosshair .v { height: 4px; top: 4px; }
+body.is-aiming .crosshair .v.b { top: auto; bottom: 4px; }
+
+@media (max-width: 800px) {
+  .objective-hud { left: 22px; top: 116px; width: 260px; padding: 12px 14px; }
+  #objective-title { font-size: 23px; }
+}
+@media (max-width: 520px) {
+  .objective-hud { left: 18px; top: 104px; width: 232px; }
+  #objective-kicker { font-size: 9px; letter-spacing: .1em; }
+  #objective-detail { font-size: 11px; }
+  #mission-results { padding: 18px; }
+  .results-shell { padding: 27px 22px; }
+  .results-kicker { font-size: 10px; }
+  #results-copy { font-size: 13px; }
+  .results-stats { grid-template-columns: 1fr 1fr; margin: 25px 0; }
+  .results-stats > div { padding: 16px 12px; }
+  .results-stats > div:nth-child(odd) { padding-left: 0; }
+  .results-stats > div:nth-child(3)::before { display: none; }
+  .results-stats > div:nth-child(n + 3) { border-top: 1px solid #ffffff15; }
+  .results-stats > div + div::before { top: 18px; bottom: 18px; }
+  .results-actions button { flex: 1; min-width: 120px; padding-inline: 16px; }
+  .mission-card[data-mode="extraction"] { gap: 0 16px; padding: 18px 15px; }
+  .mission-card[data-mode="extraction"] .mission-number { font-size: 10px; letter-spacing: .04em; }
+  .mission-card[data-mode="extraction"] strong { font-size: 28px; }
+  .mission-card[data-mode="extraction"] .mission-description { font-size: 12px; }
+}
+@media (max-height: 560px) and (min-width: 600px) {
+  .objective-hud { top: 88px; width: 226px; padding: 10px 12px; }
+  #objective-title { font-size: 22px; }
+  #objective-detail { margin-top: 5px; font-size: 11px; }
+  .objective-progress { margin-top: 9px; }
+  .results-shell { padding: 25px 30px; }
+  #results-title { font-size: 44px; }
+  .results-stats { margin: 20px 0; }
+  .results-stats > div { padding-top: 14px; padding-bottom: 16px; }
+}
+body.reduced-motion #objective-fill,
+body.reduced-motion .results-actions button { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  #objective-fill, .results-actions button { transition: none; }
+}
